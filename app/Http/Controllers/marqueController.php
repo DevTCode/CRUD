@@ -26,12 +26,6 @@ class marqueController extends Controller
         ]);
     }
 
-    public function show($id)
-    {
-        $Marque = Marque::findOrFail($id);
-        return response()->json($Marque);
-    }
-  
     public function update(Request $request, Marque $Marque)
     {
         $request->validate([
