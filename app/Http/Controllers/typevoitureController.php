@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Typevoiture;
+use Illuminate\Support\Facades\DB;
 
 class typevoitureController extends Controller
 {
@@ -49,4 +50,16 @@ class typevoitureController extends Controller
             'message'=>'Typevoiture deleted successfuly'
         ]);
     }
+    public function getTypevoiture()
+{
+    $ma = Typevoiture::orderBy('libelle', 'asc')->get(['libelle']);
+
+    return $ma;
+}
+public function searchbytv($name){
+    return  DB::table('typevoitures')
+    ->where('libelle', '=', $name)
+     ->select('typevoitures.id' )
+     ->get();
+   }
 }
