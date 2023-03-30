@@ -46,6 +46,8 @@ Route::resource('typevoiture',typevoitureController::class);
 
 
 Route::get('/car-brands', [marqueController::class, 'getCarBrands']);
+Route::get('/type_moteur', [typemoteurController::class, 'getTypemoteur']);
+Route::get('/type_voiture', [typevoitureController::class, 'getTypevoiture']);
 
  Route::post('/register',[ClientController::class,'register']);
  Route::post('/login',[ClientController::class,'login']);
@@ -53,6 +55,7 @@ Route::get('/car-brands', [marqueController::class, 'getCarBrands']);
  Route::post('/reg',[AdminController::class,'register']);
  Route::post('/log',[AdminController::class,'login']);
  Route::post('/lgout',[AdminController::class,'logout']);
+ Route::get('/api/options', [CarController::class,'cr']);
  
 
  Route::get('z',[ CarController::class,'dispo']);
@@ -60,4 +63,4 @@ Route::get('z2/{id}',[ LocationController::class,'UserId']);
 Route::get('{name}',[ CarController::class,'searchbymarque']);
 Route::get('zz/{name}',[ CarController::class,'searchbytypemoteur']);
 Route::get('z/{name}',[ CarController::class,'searchbytypevoiture']);
-
+Route::get('lm',[ marquesController::class,'index2']);
