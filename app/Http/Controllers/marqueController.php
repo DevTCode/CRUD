@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Marque;
+use Illuminate\Support\Facades\DB;
 
 class marqueController extends Controller
 {
@@ -26,6 +27,7 @@ class marqueController extends Controller
         ]);
     }
 
+  
     public function update(Request $request, Marque $Marque)
     {
         $request->validate([
@@ -49,8 +51,19 @@ class marqueController extends Controller
     }
     public function getCarBrands()
 {
-    $ma = Marque::orderBy('libelle', 'asc')->get(['id', 'libelle']);
+    $ma = Marque::orderBy('libelle', 'asc')->get(['libelle']);
 
     return $ma;
 }
+public function searchbymarque1($name){
+    return  DB::table('marques')
+    ->where('libelle', '=', $name)
+     ->select('marques.id' )
+     ->get();
+   }
+public function index2()
+    {
+        return Marque::select('libelle as libelle')->get();
+
+    }
 }
