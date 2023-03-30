@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Typemoteur;
+use Illuminate\Support\Facades\DB;
 
 class typemoteurController extends Controller
 {
@@ -47,4 +48,16 @@ class typemoteurController extends Controller
             'message'=>'Typemoteur deleted successfuly'
         ]);
     }
+    public function getTypeMoteur()
+{
+    $ma = TypeMoteur::orderBy('libelle', 'asc')->get(['libelle']);
+
+    return $ma;
+}
+public function searchbytm($name){
+    return  DB::table('typemoteurs')
+    ->where('libelle', '=', $name)
+     ->select('typemoteurs.id' )
+     ->get();
+   }
 }
