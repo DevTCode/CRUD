@@ -10,10 +10,17 @@ class typevoitureController extends Controller
 {
     public function index()
     {
-        return Typevoiture::select('id','libelle')->get();
+        $ids = [1, 2, 3, 4];
+        return  DB::table('typevoitures')
+        ->select('typevoitures.id','typevoitures.libelle as libelle')->whereIn('typevoitures.id', $ids)->get();
+      
     }
 
-  
+    public function tv(){
+        $ids = [5, 6, 7, 8];
+        return  DB::table('typevoitures')
+        ->select('typevoitures.id','typevoitures.libelle as libelle')->whereIn('typevoitures.id', $ids)->get();
+    }
     public function store(Request $request)
     {
         $request->validate([
@@ -62,4 +69,10 @@ public function searchbytv($name){
      ->select('typevoitures.id' )
      ->get();
    }
+   public function getTvLibelle($id) {
+    return  DB::table('typevoitures')
+    ->where('id', '=', $id)
+     ->select('typevoitures.libelle' )
+     ->get();
+}
 }
