@@ -4,16 +4,34 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Location;
+use Illuminate\Support\Facades\DB;
 
 class LocationController extends Controller
 {
+   
     public function index()
     {
-        return Location::select(	'idLocation',' 	user_id	','car_id','	dateL',  '	dateR')->get();
-
+        $ids = [1, 2, 3, 4];
+    return  DB::table('locations')
+        ->join('cars', 'locations.car_id', '=', 'cars.id')
+        ->join('users', 'locations.user_id', '=', 'users.id')
+        ->select('locations.idLocation','users.nom as nom','users.prenom as prenom','locations.dateL as dateL','locations.dateR as dateR','cars.prix as prix' )->whereIn('locations.idLocation', $ids)->orderBy('idLocation')->get();
     }
-
-    
+    public function loc()
+    {
+        $ids = [4, 5, 6, 7];
+    return  DB::table('locations')
+        ->join('cars', 'locations.car_id', '=', 'cars.id')
+        ->join('users', 'locations.user_id', '=', 'users.id')
+        ->select('locations.idLocation','users.nom as nom','users.prenom as prenom','locations.dateL as dateL','locations.dateR as dateR','cars.prix as prix' )->whereIn('locations.idLocation', $ids)->orderBy('idLocation')->get();
+    }
+    public function loca()
+    {
+       
+    return  DB::table('locations')
+        ->join('cars', 'locations.car_id', '=', 'cars.id')
+        ->select('locations.idLocation','cars.prix as prix' )->get();
+    }
     public function store(Request $request)
     {
         $request->validate([
