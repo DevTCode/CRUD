@@ -60,4 +60,10 @@ public function searchbytm($name){
      ->select('typemoteurs.id' )
      ->get();
    }
+   public function getTmLibelle($id) {
+    return  DB::table('typemoteurs')
+    ->where('id', '=', $id)
+     ->select('typemoteurs.libelle' )
+     ->get();
+}
 }
