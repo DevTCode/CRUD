@@ -16,16 +16,50 @@ class CarController extends Controller
      */
     public function index()
     {
-        return Car::select('id','image_id','typemoteur_id','typevoiture_id','marque_id','Prix','disponibilite','numero_chassis')->get();
+        $cars = Car::select('typevoitures.libelle', 'typemoteurs.libelle', 'marques.libelle','images.chemin','Prix','disponibilite','numero_chassis')->get();
+       
     }
-
-    
+    public function searchbyall2( ){
+        $ids = [1, 2, 3, 4];
+        return  DB::table('cars')
+        ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+        ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+        ->join('marques', 'cars.marque_id', '=', 'marques.id')
+        ->join('images', 'cars.image_id', '=', 'images.id')
+        ->select('cars.id','images.chemin as path','typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','cars.disponibilite as z'  ,'Prix','numero_chassis' )
+        ->whereIn('cars.id', $ids)->orderBy('id')->get();
+         
+       }
+       public function allCars( ){
+        $ids = [5, 6, 11, 12];
+        return  DB::table('cars')
+        ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+        ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+        ->join('marques', 'cars.marque_id', '=', 'marques.id')
+        ->join('images', 'cars.image_id', '=', 'images.id')
+        ->select('cars.id','images.chemin as path','typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','cars.disponibilite as z'  ,'Prix','numero_chassis' )
+        ->whereIn('cars.id', $ids)->orderBy('id')->get();
+         
+       }
+       public function c( ){
+        $ids = [13, 14, 15, 16];
+        return  DB::table('cars')
+        ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+        ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+        ->join('marques', 'cars.marque_id', '=', 'marques.id')
+        ->join('images', 'cars.image_id', '=', 'images.id')
+        ->select('cars.id','images.chemin as path','typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','cars.disponibilite as z'  ,'Prix','numero_chassis' )
+        ->whereIn('cars.id', $ids)->orderBy('id')->get();
+         
+       }
     public function store(Request $request)
     {
         $request->validate([
-            'image_id'=>'required',
-            'typemoteur_id'=>'required',
+            
+            
             'typevoiture_id'=>'required',
+            'typemoteur_id'=>'required',
+            'image_id'=>'required',
             'marque_id'=>'required',
             'Prix'=>'required',
             'disponibilite'=>'required',
@@ -41,10 +75,11 @@ class CarController extends Controller
     public function update(Request $request, Car $car)
     {
         $request->validate([
-            'image_id'=>'required',
-            'typemoteur_id'=>'required',
+            
             'typevoiture_id'=>'required',
+            'typemoteur_id'=>'required',
             'marque_id'=>'required',
+            'image_id'=>'required',
             'Prix'=>'required',
             'disponibilite'=>'required',
             'numero_chassis'=>'required'
@@ -114,6 +149,7 @@ class CarController extends Controller
     ->get();
 
    }
-    
+   
+
         
 }
