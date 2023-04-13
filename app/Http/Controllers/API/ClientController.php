@@ -6,10 +6,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
-    public function register(Request $request){
+    public function ic($id){
+        return  DB::table('users')
+        
+        ->where('users.id', '=', $id)
+        ->select('users.id as ide','users.nom','users.prenom', 'users.CNE' , 'users.tel','users.numPermis' ,'users.email' )
+        ->get();
+    }
+    public function id( ) {
+        return response()->json([
+             
+            'id' => Auth::id()
+        ],200);
+    }
+     public function register(Request $request){
         $fields = Validator::make($request->all(),[
             
             'nom' => 'required',
@@ -17,7 +32,7 @@ class ClientController extends Controller
             'CNE' => 'required',
             'tel' => 'required',
             'numPermis' => 'required',
-            'email' => 'required|email',
+            'email' => 'required' ,
             'password' => 'required',
             
         ]);
@@ -70,6 +85,7 @@ class ClientController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'user logged In successfuly',
+                
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ],200);
         }
@@ -83,9 +99,9 @@ class ClientController extends Controller
         
         }
         public function logout (Request $request) {
-            auth()->user()->tokens()->delete();
+            auth()->user()->tokens ()->delete();
             return [
-            'message' => 'Logged out'];
+            'message' => 'deconnecter '];
         }
 }
     
