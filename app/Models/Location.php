@@ -14,13 +14,10 @@ class Location extends Model
         public  function car(){
             return $this->hasOne(Car::class);
         }
-        protected $filiable =['idLocation',	'user_id'	,'car_id'	,'dateL'	,'dateR'];
+        public  function fact(){
+            return $this->hasOne(Facture::class);
+        }
+        protected $fillable =['id','user_id','car_id','dateL','dateR'];
 
-        public static function  s1($id)
-{
-    return self::join('users', 'locations.user_id', '=', 'users.id')
-        ->select('locations.*')
-        ->where('users.id', '=', $id)
-        ->get();
-}
+
 }
