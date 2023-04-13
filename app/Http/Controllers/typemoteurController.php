@@ -66,4 +66,9 @@ public function searchbytm($name){
      ->select('typemoteurs.libelle' )
      ->get();
 }
+public function index4()
+    {
+        return Typemoteur::select( 'libelle as libelle')->get();
+
+    }
 }
