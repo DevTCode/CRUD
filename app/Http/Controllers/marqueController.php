@@ -75,7 +75,7 @@ public function searchbymarque1($name){
     ->select('marques.id','marques.libelle as libelle')->whereIn('marques.id', $ids)->orderBy('id')->get();
      
    } 
-public function index2()
+public function lm()
     {
         return Marque::select('libelle as libelle')->get();
 
