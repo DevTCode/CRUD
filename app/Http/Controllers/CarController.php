@@ -19,7 +19,7 @@ class CarController extends Controller
         $cars = Car::select('typevoitures.libelle', 'typemoteurs.libelle', 'marques.libelle','images.chemin','Prix','disponibilite','numero_chassis')->get();
        
     }
-    public function searchbyall2( ){
+    public function searchbyal(){
         $ids = [1, 2, 3, 4];
         return  DB::table('cars')
         ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
@@ -29,6 +29,15 @@ class CarController extends Controller
         ->select('cars.id','images.chemin as path','typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','cars.disponibilite as z'  ,'Prix','numero_chassis' )
         ->whereIn('cars.id', $ids)->orderBy('id')->get();
          
+       }
+       public function searchbyall2(){
+        return  DB::table('cars')
+        ->join('marques', 'cars.marque_id', '=', 'marques.id')
+        ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+        ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+        ->join('images', 'cars.image_id', '=', 'images.id')
+        ->select('cars.id','images.chemin as zineb','typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','cars.disponibilite as D'  ,'cars.Prix as p','numero_chassis' )
+        ->get();
        }
        public function allCars( ){
         $ids = [5, 6, 11, 12];
@@ -99,50 +108,49 @@ class CarController extends Controller
             'message'=>'Car deleted successfuly'
         ]);
     }
-    public function dispo() {
-        $cars = DB::table('cars')
-            
-            ->join('marques', 'cars.marque_id', '=', 'marques.id')
-            ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
-            ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
-            ->join('images', 'cars.image_id', '=', 'images.id')
-            ->where('disponibilite', 1)
-             ->select('cars.id','typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteurs ' , 'marques.libelle as marque','images.chemin as image ')
-             ->get();
+  
+    public function searchbymarque($name){
+        return  DB::table('cars')
+         ->join('marques', 'cars.marque_id', '=', 'marques.id')
+         ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+         ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+         ->join('images', 'cars.image_id', '=', 'images.id')
+         ->where('marques.libelle', '=', $name)
+         ->select('cars.id','typevoitures.libelle as typevoiture','cars.disponibilite as D', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','images.chemin as zineb' ,'cars.Prix as p' )
+         ->get();
+       }
+       public function searchbytypemoteur($name){
+        return  DB::table('cars')
+        ->join('marques', 'cars.marque_id', '=', 'marques.id')
+        ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+        ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+        ->join('images', 'cars.image_id', '=', 'images.id')
+         ->where('typemoteurs.libelle', '=', $name)
+         ->select('cars.id','typevoitures.libelle as typevoiture','cars.disponibilite as D', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','images.chemin as zineb' ,'cars.Prix as p' )
+                ->get();}
         
-        return $cars;
-    }
-  public function searchbymarque($name){
-   return  DB::table('cars')
-    ->join('marques', 'cars.marque_id', '=', 'marques.id')
-    ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
-    ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
-    ->join('images', 'cars.image_id', '=', 'images.id')
-    ->where('marques.libelle', '=', $name)
-    ->select('cars.id','typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteurs ' , 'marques.libelle as marque','images.chemin as image ')
-    ->get();
-  }
-  public function searchbytypemoteur($name){
-    return  DB::table('cars')
-    ->join('marques', 'cars.marque_id', '=', 'marques.id')
-    ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
-    ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
-    ->join('images', 'cars.image_id', '=', 'images.id')
-     ->where('typemoteurs.libelle', '=', $name)
-     ->select('cars.id','typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteurs ' , 'marques.libelle as marque','images.chemin as image ')
-     ->get();
-   }
+       public function searchbytypevoiture($name){
+        return  DB::table('cars')
+        ->join('marques', 'cars.marque_id', '=', 'marques.id')
+        ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+        ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+        ->join('images', 'cars.image_id', '=', 'images.id')
+         ->where('typevoitures.libelle', '=', $name)
+         ->select('cars.id','typevoitures.libelle as typevoiture','cars.disponibilite as D', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','images.chemin as zineb' ,'cars.Prix as p' )
+         ->get();}
+   public function dispo() {
+    $cars = DB::table('cars')
+        
+        ->join('marques', 'cars.marque_id', '=', 'marques.id')
+        ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+        ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+        ->join('images', 'cars.image_id', '=', 'images.id')
+        ->where('disponibilite', 'true')
+        ->select('cars.id','typevoitures.libelle as typevoiture','cars.disponibilite as D', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','images.chemin as zineb' ,'cars.Prix as p' )
+        ->get();
     
-   public function searchbytypevoiture($name){
-    return  DB::table('cars')
-    ->join('marques', 'cars.marque_id', '=', 'marques.id')
-    ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
-    ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
-    ->join('images', 'cars.image_id', '=', 'images.id')
-     ->where('typevoitures.libelle', '=', $name)
-     ->select('cars.id','typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteurs ' , 'marques.libelle as marque','images.chemin as image ')
-     ->get();
-   }
+    return $cars;
+}
    public function searchbyidadmin($id){
     return  DB::table('cars')
     ->where('id', $id)
@@ -150,6 +158,66 @@ class CarController extends Controller
 
    }
    
-
-        
+   public function searchbyall($name,$name2,$name3){
+    return  DB::table('cars')
+    ->join('marques', 'cars.marque_id', '=', 'marques.id')
+    ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+    ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+    ->join('images', 'cars.image_id', '=', 'images.id')
+     ->where('typevoitures.libelle', '=', $name2)
+     ->where('marques.libelle', '=', $name)
+     ->where('typemoteurs.libelle', '=', $name3)
+     ->select('cars.id','typevoitures.libelle as typevoiture','cars.disponibilite as D', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','images.chemin as zineb' ,'cars.Prix as p' )
+     ->get();
+   }
+   public function searchbymtv($name,$name2 ){
+    return  DB::table('cars')
+    ->join('marques', 'cars.marque_id', '=', 'marques.id')
+    ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+    ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+    ->join('images', 'cars.image_id', '=', 'images.id')
+     ->where('typevoitures.libelle', '=', $name2)
+     ->where('marques.libelle', '=', $name)
+     ->select('cars.id','typevoitures.libelle as typevoiture','cars.disponibilite as D', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','images.chemin as zineb' ,'cars.Prix as p' )
+     ->get();
+   }
+   public function searchbymtm($name,$name2 ){
+    return  DB::table('cars')
+    ->join('marques', 'cars.marque_id', '=', 'marques.id')
+    ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+    ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+    ->join('images', 'cars.image_id', '=', 'images.id')
+    ->where('typemoteurs.libelle', '=', $name2)
+     ->where('marques.libelle', '=', $name)
+     ->select('cars.id','typevoitures.libelle as typevoiture','cars.disponibilite as D', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','images.chemin as zineb' ,'cars.Prix as p' )
+     ->get();
+   }
+   public function searchbytvtm($name,$name2 ){
+    return  DB::table('cars')
+    ->join('marques', 'cars.marque_id', '=', 'marques.id')
+    ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+    ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+    ->join('images', 'cars.image_id', '=', 'images.id')
+    ->where('typemoteurs.libelle', '=', $name2)
+    ->where('typevoitures.libelle', '=', $name)
+    ->select('cars.id','typevoitures.libelle as typevoiture','cars.disponibilite as D', 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque','images.chemin as zineb' ,'cars.Prix as p' )
+    ->get();
+   }
+   public function updateCarDispo($id)
+   {
+       // Récupérer la voiture avec l'ID donné
+       $car = Car::find($id);
+   
+       // Vérifier si la voiture existe
+       if ($car) {
+           // Mettre à jour la colonne 'dispo' à false
+           $car->update(['disponibilite' => false]);
+   
+           // Retourner une réponse de succès
+           return response()->json(['message' => 'La disponibilité de la voiture a été mise à jour avec succès.']);
+       } else {
+           // Retourner une réponse d'erreur si la voiture n'est pas trouvée
+           return response()->json(['error' => 'Voiture non trouvée.'], 404);
+       }
+   } 
 }
