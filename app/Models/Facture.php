@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Facture extends Model
 {
     use HasFactory;
-    protected $fillable = ['total'];
+    protected $fillable = ['idloc','idcar','total'];
 }
