@@ -15,8 +15,9 @@ class User extends Authenticatable
     public function locations(){
         return $this->hasMany(Location::class,'user_id');
     }
+    
    
-    protected $fillable = ['id','nom','prenom','CNE','tel','numPermis','email','password'];
+    protected $fillable = ['nom','prenom','CNE','tel','numPermis','email','password'];
 
     
     
