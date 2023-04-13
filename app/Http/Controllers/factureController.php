@@ -13,81 +13,86 @@ class factureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function loca($id)
+    {
+     
+    
+        return  DB::table('factures')
+      
+        ->join('locations', 'locations.id', '=', 'factures.idloc')
+        ->join('users', 'users.id', '=', 'locations.user_id')
+        ->join('cars', 'cars.id', '=', 'locations.car_id')
+      
+        ->join('marques', 'cars.marque_id', '=', 'marques.id')
+        ->join('images', 'cars.image_id', '=', 'images.id')
+        ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+        ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+      
+      
+        ->where('factures.id', '=', $id)
+        ->select('factures.id','factures.created_at as time','factures.idloc as idloc','factures.total as total','marques.libelle as marque', 'typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteur', 'locations.dateL', 'locations.dateR')
+        ->get();
+       
+    }
+    
+    
+    
     public function index()
     {
         return  DB::table('factures')
-        ->join('cars', 'factures.prix', '=', 'cars.prix')
-        ->select('factures.id','cars.prix as prix' )->get();
+        
+        ->select('factures.id as id','factures.idloc as idloc','factures.idcar as idcar','factures.total as total' )->get();
     }
-    public function cp($i, $ii) {
-        return DB::table('factures')
-        ->join('cars', 'cars.prix', '=', 'factures.price')
-        ->join('locations','locations.idLocation','=','factures.idloc')
-        ->where('locations.user_id', '=', $i)
-        ->where('locations.car_id', '=', $ii)
-        ->select(DB::raw('(DATEDIFF(locations.dateR, locations.dateL) + 1) * cars.Prix AS total') )
-        ->get();
-            
-    }
+    
+        public function store(Request $request)
+        {
+            $request->validate([
+                'idloc'=>'required',
+                'idcar'=>'required',
+                'total'=>'required',
+                
+            ]);
+           Facture::create($request->post());
+            return response()->json([
+                'message'=>'facture  creer'
+            ]);
+        }
+    
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            
-            
-            'total'=>'required',
-            
-
-        ]);
-        Facture::create($request->post());
-        return response()->json([
-            'message'=>'Facture created successfuly'
-        ]);
-    }
-
-
+   
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show(){
+        
+        return  DB::table('factures')->get();
     }
-
+    public function index4($i)
+    {
+        return  DB::table('factures')
+      
+        ->join('locations', 'locations.id', '=', 'factures.idloc')
+        ->join('users', 'users.id', '=', 'locations.user_id')
+        ->join('cars', 'cars.id', '=', 'locations.car_id')
+      
+        ->join('marques', 'cars.marque_id', '=', 'marques.id')
+        ->join('images', 'cars.image_id', '=', 'images.id')
+        ->join('typemoteurs', 'cars.typemoteur_id', '=', 'typemoteurs.id')
+        ->join('typevoitures', 'cars.typevoiture_id', '=', 'typevoitures.id')
+      
+      
+        ->where('locations.user_id', '=', $i)
+        ->select('factures.id','factures.idloc as idloc','factures.total as total','marques.libelle as marque', 'typevoitures.libelle as typevoiture', 'typemoteurs.libelle as typemoteur', 'locations.dateL', 'locations.dateR')
+        ->get();
+       
+    }
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
