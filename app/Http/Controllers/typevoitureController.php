@@ -75,4 +75,9 @@ public function searchbytv($name){
      ->select('typevoitures.libelle' )
      ->get();
 }
+public function index2()
+    {
+        return Typevoiture::select( 'libelle as libelle')->get();
+
+    }
 }
