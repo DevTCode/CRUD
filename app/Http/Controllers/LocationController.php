@@ -20,11 +20,11 @@ class LocationController extends Controller
     }
     public function loc()
     {
-        $ids = [4, 5, 6, 7];
+   
     return  DB::table('locations')
         ->join('cars', 'locations.car_id', '=', 'cars.id')->join('images', 'cars.image_id', '=', 'images.id')
         ->join('users', 'locations.user_id', '=', 'users.id')
-        ->select('locations.id','users.nom as nom','users.prenom as prenom','images.chemin as image','locations.dateL as dateL','locations.dateR as dateR','cars.prix as prix' )->whereIn('locations.idLocation', $ids)->orderBy('idLocation')->get();
+        ->select('locations.id','users.nom as nom','users.prenom as prenom','images.chemin as image','locations.dateL as dateL','locations.dateR as dateR','cars.prix as prix' )->get();
     }
     public function loca()
     {
