@@ -220,4 +220,21 @@ class CarController extends Controller
            return response()->json(['error' => 'Voiture non trouvée.'], 404);
        }
    } 
+   public function disp($id)
+   {
+       // Récupérer la voiture avec l'ID donné
+       $car = Car::find($id);
+   
+       // Vérifier si la voiture existe
+       if ($car) {
+           // Mettre à jour la colonne 'dispo' à false
+           $car->update(['disponibilite' => true]);
+   
+           // Retourner une réponse de succès
+           return response()->json(['message' => 'La disponibilité de la voiture a été mise à jour avec succès.']);
+       } else {
+           // Retourner une réponse d'erreur si la voiture n'est pas trouvée
+           return response()->json(['error' => 'Voiture non trouvée.'], 404);
+       }
+   } 
 }
