@@ -109,6 +109,7 @@ Route::get('ic/{id}',[ClientController::class,'ic']);
 
 Route::get('lid/{i}',[ locationController::class,'lid']);
 Route::put('di/{id}',[CarController::class,'updateCarDispo']);
+Route::put('deca/{id}',[CarController::class,'disp']);
 Route::get('prix/{i}/{ii}',[ locationController::class,'cp']);
 Route::get('idloc/{i}/{ii}/{n}/{nn}',[ locationController::class,'idloc']);
  
