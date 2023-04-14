@@ -11,12 +11,12 @@ class LocationController extends Controller
    
     public function index()
     {
-        $ids = [1, 2, 3, 4,5];
+       
     return  DB::table('locations')
         ->join('cars', 'locations.car_id', '=', 'cars.id')->join('images', 'cars.image_id', '=', 'images.id')
         ->join('users', 'locations.user_id', '=', 'users.id')
         
-        ->select('locations.id','users.nom as nom','users.prenom as prenom','images.chemin as image','locations.dateL as dateL','locations.dateR as dateR','cars.prix as prix' )->whereIn('locations.id', $ids)->orderBy('id')->get();
+        ->select('locations.id','users.nom as nom','users.prenom as prenom','images.chemin as image','locations.dateL as dateL','locations.dateR as dateR','cars.prix as prix' )->get();
     }
     public function loc()
     {
@@ -57,7 +57,7 @@ class LocationController extends Controller
             
             ->where('locations.id', '=', $i)
             ->where('cars.id', '=', $ii)
-            ->select(DB::raw('(DATEDIFF(locations.dateR, locations.dateL) + 1) * cars.Prix AS prix_location') ,'locations.id','cars.id','typevoitures.libelle as typevoiture' , 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque')
+            ->select(DB::raw('(DATEDIFF(locations.dateR, locations.dateL) + 1) * cars.Prix AS prix_location') ,'locations.id as ide','cars.id','typevoitures.libelle as typevoiture' , 'typemoteurs.libelle as typemoteur' , 'marques.libelle as marque')
             ->get();
     }
     public function idloc($i,$ii,$n,$nn ) {
